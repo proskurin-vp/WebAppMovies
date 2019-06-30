@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "ml-auto" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="navbar-nav">
+            <li>
+                <a class="nav-link active" href="#">@User.Identity.GetUserName()</a>
+                @*@Html.ActionLink("Здравствуйте, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link active" })*@
+            </li>
+            <li><a class="nav-link active" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
+        </ul>   }
+}
+else
+{
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link active" href="#" id="registerLink">Зарегистрироваться</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#" id="loginLink">Войти</a></li>           
+        </ul>  
+   
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#registerLink').click(function () {
+
+                var url = $('#myModal').data('url-register');
+                $.get(url, function (data) {
+
+                    $("#myModal").html(data);
+                    $("#myModal").modal('show');                  
+                });
+            });
+
+            $('#loginLink').click(function () {
+
+                var url = $('#myModal').data('url-login');
+                $.get(url, function (data) {
+
+                    $("#myModal").html(data);
+                    $("#myModal").modal('show');
+                });
+            });
+
+        });
+    </script>
+}

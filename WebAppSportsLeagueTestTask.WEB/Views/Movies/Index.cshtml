@@ -1,0 +1,63 @@
+﻿@model WebAppSportsLeagueTestTask.WEB.Models.PageViewModel
+@using WebAppSportsLeagueTestTask.WEB.Helpers
+@{
+    ViewBag.Title = "Список фильмов";
+}
+
+<div class="container mt-3">
+
+    <div class="row single-post no-gutters mt-2">
+        @foreach (var item in Model.Movies)
+        {
+        <div class="col-sm-12 col-md-6 col-sm-4 mb-4 cursor-pointer" onclick="location.href='@Url.Action("Details", "Movies", new {id = item.Id})'">
+            <div class="image-wrapper float-left pr-3">
+                <img class="float-left d-inline rounded" src='@string.Format("/Posters/{0}", item.Poster)' alt="@item.Name" height="275" />
+            </div>
+            <h4>@item.Name (@item.Year)</h4>
+            <h5>@item.Director.FullName</h5>
+            <div class="single-post-content-wrapper pr-3 text-justify">
+                @item.Description
+            </div>
+            @if (item.ApplicationUser != null)
+            {               
+                <h6 class="mt-2">@item.ApplicationUser.Email</h6>
+            }
+
+            @if (ViewBag.userId != null && item.ApplicationUser != null && item.ApplicationUser.Id == ViewBag.userId)
+            {
+                <div class="mt-2">
+                    <a class="btn btn-primary" href="/Movies/Edit/@item.Id">Редактировать</a>
+                    <a class="btn btn-primary" href="/Movies/Delete/@item.Id">Удалить</a>
+                </div>
+            }
+
+        </div>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @if (@ViewBag.IsUserAuthorize)
+            {
+                <div class="row mt-1">
+                    <div class="col">
+                        <a class="btn btn-primary" href="/Movies/Create" role="button">Добавить фильм</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-8 pt-1 text-center">
+            <div class="btn-group">
+                @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+
+
+
+
+

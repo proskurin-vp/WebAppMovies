@@ -1,0 +1,22 @@
+﻿@model WebAppSportsLeagueTestTask.WEB.Models.Director
+
+@{
+    ViewBag.Title = "Удаление режиссёра";
+}
+
+
+<div class="container mt-3">
+    <hr />
+    <h4>@ViewBag.Title @Html.DisplayFor(model => model.FullName)</h4>
+    <hr />
+    <div>Вы уверены, что хотите удалить режиссёра @Html.DisplayFor(model => model.FullName)?</div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Да, удалить @Html.DisplayFor(model => model.FullName)" class="btn btn-primary mt-2" />
+        </div>
+    }
+</div>

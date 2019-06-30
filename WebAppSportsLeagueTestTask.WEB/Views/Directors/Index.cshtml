@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebAppSportsLeagueTestTask.WEB.Models.DirectorViewModel>
+
+@{
+    ViewBag.Title = "Режиссёры";
+}
+
+<div class="container mt-3">
+    <hr />
+    <h4>Режиссёры</h4>
+    <hr />
+
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-3">
+                @Html.DisplayFor(modelItem => item.FullName)
+            </div>
+            <div class="col-md-9 mb-2">
+                @Html.ActionLink("Подробнее", "Details", new { id = item.Id }, new { @class = "btn btn-primary" })
+                @if (item.CountMovies == 0)
+                {
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-primary mr-1" })
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" })
+                }
+            </div>
+        </div>
+    }
+
+    <div class="row mt-2">
+        <div class="col">
+            <a class="btn btn-primary mb-1" href="/Directors/Create" role="button">Добавить режиссёра</a>
+        </div>
+    </div>
+
+</div>
