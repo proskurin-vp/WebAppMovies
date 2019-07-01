@@ -16,7 +16,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
     public class MoviesController : Controller
     {
         private ApplicationDbContext _db = new ApplicationDbContext();
-        
+        private int _pageSize = 4; // количество фильмов на страницу    
 
         // GET: Movies
         public ActionResult Index(int page = 1)
@@ -30,15 +30,26 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                     m.Description;
                     return m;
                 });
-
-            int pageSize = 4; // количество фильмов на страницу           
-            IEnumerable<Movie> moviesPerPages = movies.Skip((page - 1) * pageSize).Take(pageSize);
-            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = movies.Count() };
+           
+                   
+            IEnumerable<Movie> moviesPerPages = movies.Skip((page - 1) * _pageSize).Take(_pageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = _pageSize, TotalItems = movies.Count() };
             PageViewModel pvm = new PageViewModel { PageInfo = pageInfo, Movies = moviesPerPages };
 
             var appUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             ViewBag.IsUserAuthorize = appUser == null ? false : true;
             ViewBag.userId = appUser == null ? null : appUser.Id;
+
+            HttpCookie cookie =  CreateCookie("currentPage", pageInfo.PageNumber.ToString());
+
+            if(!ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("currentPage"))
+            {                
+                Response.Cookies.Add(cookie);
+            }
+            else
+            {
+                Response.Cookies.Set(cookie);
+            }            
 
             return View(pvm);
         }
@@ -127,7 +138,14 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                     {
                         ModelState.AddModelError("Error", ex.Message);
                     }
-                    return RedirectToAction("Index", "Movies" );
+                
+                    int movieCount = _db.Movies.Count();
+                    int page = movieCount / _pageSize;
+                    if (movieCount%_pageSize != 0)
+                    {
+                        page++;
+                    }                   
+                    return RedirectToAction("Index", "Movies", new { page = page } );
                 }                
             }
 
@@ -151,7 +169,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
             }        
            
             ViewBag.Directors = new SelectList(_db.Directors, "Id", "FullName", movie.DirectorId);
-            ViewBag.Poster = movie.Poster;
+            ViewBag.Poster = movie.Poster;          
 
             MovieViewModel mvm = new MovieViewModel
             {
@@ -192,8 +210,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                     {
                         ModelState.AddModelError("Error", ex.Message);
                     }
-                }
-              
+                }              
 
                 movie.Name = model.Name;
                 movie.Description = model.Description;
@@ -201,6 +218,14 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                 movie.Year = model.Year;
               
                 _db.SaveChanges();
+
+
+                if (ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("currentPage"))
+                {
+                    var pageNumber = Request.Cookies["currentpage"].Value;
+                    return RedirectToAction("Index", "Movies", new { page = pageNumber });
+
+                }
                 return RedirectToAction("Index", "Movies");
             }
 
@@ -255,6 +280,14 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private HttpCookie CreateCookie(string key, string value)
+        {
+            HttpCookie StudentCookies = new HttpCookie(key);
+            StudentCookies.Value = value;
+            StudentCookies.Expires = DateTime.Now.AddHours(1);
+            return StudentCookies;
         }
     }
 }

@@ -30,7 +30,9 @@ namespace WebAppSportsLeagueTestTask.WEB.Models
 
         [DisplayName("Постер")]
         [DataType(DataType.Upload)]        
-        public HttpPostedFileBase ImageUpload { get; set; }      
+        public HttpPostedFileBase ImageUpload { get; set; }   
+        
+        public int CurrentPageNumber { get; set; }
 
     }
 
