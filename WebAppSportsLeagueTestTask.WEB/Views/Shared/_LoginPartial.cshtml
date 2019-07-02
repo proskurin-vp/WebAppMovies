@@ -7,11 +7,11 @@
 
         <ul class="navbar-nav">
             <li>
-                <a class="nav-link active" href="#">@User.Identity.GetUserName()</a>
-                @*@Html.ActionLink("Здравствуйте, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link active" })*@
+                <a class="nav-link active" href="#">@User.Identity.GetUserName()</a>                
             </li>
             <li><a class="nav-link active" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
-        </ul>   }
+        </ul>   
+    }
 }
 else
 {
@@ -26,28 +26,22 @@ else
    
 
     <script type="text/javascript">
-        $(document).ready(function () {
 
-            $('#registerLink').click(function () {
+        function log_reg(link, url) {
+            $(link).click(function () {
 
-                var url = $('#myModal').data('url-register');
-                $.get(url, function (data) {
-
-                    $("#myModal").html(data);
-                    $("#myModal").modal('show');                  
-                });
-            });
-
-            $('#loginLink').click(function () {
-
-                var url = $('#myModal').data('url-login');
-                $.get(url, function (data) {
+                var uri = $('#myModal').data(url);
+                $.get(uri, function (data) {
 
                     $("#myModal").html(data);
                     $("#myModal").modal('show');
                 });
             });
+        }
 
+        $(document).ready(function () {
+            log_reg('#registerLink', 'url-register');
+            log_reg('#loginLink', 'url-login');
         });
     </script>
 }
