@@ -33,7 +33,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
            
                    
             IEnumerable<Movie> moviesPerPages = movies.Skip((page - 1) * _pageSize).Take(_pageSize);
-            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = _pageSize, TotalItems = movies.Count() };
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = _pageSize, TotalItems = movies.Count(), Offset = 2 };
             PageViewModel pvm = new PageViewModel { PageInfo = pageInfo, Movies = moviesPerPages };
 
             var appUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -224,7 +224,6 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                 {
                     var pageNumber = Request.Cookies["currentpage"].Value;
                     return RedirectToAction("Index", "Movies", new { page = pageNumber });
-
                 }
                 return RedirectToAction("Index", "Movies");
             }
@@ -266,7 +265,6 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
             {
                 ModelState.AddModelError("Error", ex.Message);
             }
-
             
             _db.Movies.Remove(movie);
             _db.SaveChanges();
