@@ -18,8 +18,9 @@
             <div class="col-md-9">
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-              
-                <input type="hidden" value="CurrentPageNumber" />
+
+                @*<input type="hidden" value=@Model.CurrentPageNumber name="CurrentPageNumber" />*@
+                <input type="hidden" value=@Model.ApplicationUserId name="ApplicationUserId" />
                 <div class="form-group">
                     <div class="row">
                         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-md-4" })
@@ -68,8 +69,10 @@
                             <div class="custom-file" style="min-width: 100%">
                                 <input type="file" class="custom-file-input" accept="image/*" name="ImageUpload" id="ImageUpload" onclick="setImage();">
                                 <label class="custom-file-label" id="label-image-file" for="inputFile">@ViewBag.Poster</label>
-                                @Html.ValidationMessageFor(model => model.ImageUpload, "", new { @class = "text-danger" })
                             </div>
+                        </div>
+                        <div class="col-md-8 offset-4">
+                            @Html.ValidationMessageFor(model => model.ImageUpload, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>

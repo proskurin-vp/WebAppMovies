@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebAppSportsLeagueTestTask.WEB.CustomAttributes;
 
 namespace WebAppSportsLeagueTestTask.WEB.Models
 {
@@ -28,11 +29,15 @@ namespace WebAppSportsLeagueTestTask.WEB.Models
         [DisplayName("Режиссёры")]       
         public IEnumerable<DirectorInfo> Directors { get; set; }
 
-        [DisplayName("Постер")]
-        [DataType(DataType.Upload)]        
+        [DisplayName("Постер")]       
+        [DataType(DataType.Upload)]
+        [ValidateFile(ErrorMessage = "Пожалуйста, выберете постер (*.jpg, *.png, *.gif) размером меньше 1Mb")]       
         public HttpPostedFileBase ImageUpload { get; set; }   
         
         public int CurrentPageNumber { get; set; }
+
+        public string ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
     }
 

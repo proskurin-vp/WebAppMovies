@@ -64,13 +64,17 @@
                     <div class="row">
                         @Html.LabelFor(model => model.ImageUpload, htmlAttributes: new { @class = "col-md-4" })
                         <div class="input-group col-md-8">
-                            <div class="custom-file" style="min-width: 100%">
-                                <input type="file" class="custom-file-input" required accept="image/*" name="ImageUpload" id="ImageUpload" onclick="setImage();">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" accept="image/*" name="ImageUpload" id="ImageUpload" onclick="setImage();" />
                                 <label class="custom-file-label" id="label-image-file" for="inputFile">Выбeрите файл</label>
-                                @Html.ValidationMessageFor(model => model.ImageUpload, "", new { @class = "text-danger" })
-                            </div>
+                            </div>                           
+                        </div> 
+                        <div class="col-md-8 offset-4">
+                            @Html.ValidationMessageFor(model => model.ImageUpload, "", new { @class = "text-danger" })
                         </div>
-                    </div>
+                       
+                    </div> 
+                   
                 </div>
 
             </div>
