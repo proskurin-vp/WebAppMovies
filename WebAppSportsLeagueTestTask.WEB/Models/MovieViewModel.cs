@@ -24,6 +24,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Models
 
         [DisplayName("Год выпуска")]
         [Required]
+        [Range(1900, 2050)]
         public int Year { get; set; }
 
         [DisplayName("Режиссёры")]       

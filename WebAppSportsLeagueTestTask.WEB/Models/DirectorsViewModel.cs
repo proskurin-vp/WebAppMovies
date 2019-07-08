@@ -7,9 +7,9 @@ using WebAppSportsLeagueTestTask.WEB.EFModels;
 
 namespace WebAppSportsLeagueTestTask.WEB.Models
 {
-    public class MoviesViewModel
+    public class DirectorsViewModel
     {
-        public IPagedList<Movie> PagedMovies { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }       
+        public IPagedList<DirectorViewModel> PagedDirectors { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

@@ -4,8 +4,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using WebAppSportsLeagueTestTask.WEB.Models;
 
-namespace WebAppSportsLeagueTestTask.WEB.Models
+namespace WebAppSportsLeagueTestTask.WEB.EFModels
 {
     public class Movie
     {

@@ -13,6 +13,7 @@ using WebAppSportsLeagueTestTask.WEB.Models;
 using PagedList.Mvc;
 using PagedList;
 using System.Data.SqlClient;
+using WebAppSportsLeagueTestTask.WEB.EFModels;
 
 namespace WebAppSportsLeagueTestTask.WEB.Controllers
 {
@@ -46,7 +47,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
             MoviesViewModel model = new MoviesViewModel
             {
                 PagedMovies = new StaticPagedList<Movie>(movies, (int)page, _pageSize, totalMoviesCount < MAX_PAGINATION_LINKS ? totalMoviesCount : MAX_PAGINATION_LINKS),
-                ApplicationUser = GetCurrentAppUser()
+                ApplicationUser = Utils.GetCurrentAppUser()
             };
 
             HttpCookie cookie = CreateCookie("currentPage", page.ToString());
@@ -75,7 +76,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
             {
                 return HttpNotFound();
             }
-            var appUser = GetCurrentAppUser();
+            var appUser = Utils.GetCurrentAppUser();
             ViewBag.IsUserAuthorize = appUser == null ? false : true;
             ViewBag.userId = appUser == null ? null : appUser.Id;
             return View(movie);
@@ -87,7 +88,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
         {
             SelectList directors = new SelectList(_db.Directors, "Id", "FullName");
             ViewBag.Directors = directors;
-            return View(new MovieViewModel());
+            return View(new MovieViewModel{ Year = 2000 });
         }
 
         // POST: Movies/Create
@@ -124,10 +125,10 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
             string directorId = Request.Form["Directors"].ToString();
             Movie movie = new Movie
             {
-                ApplicationUserId = GetCurrentAppUser().Id,
-                Description = model.Description,
+                ApplicationUserId = Utils.GetCurrentAppUser().Id,
+                Description = model.Description.Trim(),
                 DirectorId = Convert.ToInt32(directorId),
-                Name = model.Name,
+                Name = model.Name.Trim(),
                 Year = model.Year,
                 Poster = Path.GetFileName(posterImagePath)
             };
@@ -189,7 +190,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
             Movie movie = _db.Movies.Find(model.Id);
             ViewBag.Poster = movie.Poster;
 
-            if (model.ApplicationUserId == GetCurrentAppUser().Id)
+            if (model.ApplicationUserId == Utils.GetCurrentAppUser().Id)
             {                             
 
                 if (model.ImageUpload == null)
@@ -241,6 +242,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Movie movie = _db.Movies.Find(id);
+            
             if (movie == null)
             {
                 return HttpNotFound();
@@ -288,18 +290,11 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
             return StudentCookies;
         }
 
-        private ApplicationUser GetCurrentAppUser()
-        {
-            return System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-        }
-
         private string GetPosterImagePath(string fileName)
         {
             var uploadDir = "~/Posters";
             string fileImage = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(fileName);
             return Path.Combine(Server.MapPath(uploadDir), fileImage);
-        }
-
-       
+        }       
     }
 }

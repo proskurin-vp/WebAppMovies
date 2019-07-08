@@ -10,6 +10,7 @@ namespace WebAppSportsLeagueTestTask.WEB.CustomAttributes
 {
     public class ValidateFileAttribute : RequiredAttribute
     {
+        private const int MAX_FILE_SIZE = 1 * 1024 * 1024;
         public override bool IsValid(object value)
         {
             var file = value as HttpPostedFileBase;
@@ -18,7 +19,7 @@ namespace WebAppSportsLeagueTestTask.WEB.CustomAttributes
                 return false;
             }
 
-            if (file.ContentLength > 1 * 1024 * 1024 || file.ContentLength == 0)
+            if (file.ContentLength > MAX_FILE_SIZE || file.ContentLength == 0)
             {
                 return false;
             }

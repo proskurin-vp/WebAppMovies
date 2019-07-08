@@ -7,13 +7,26 @@
     ViewBag.Title = "Список фильмов";
 }
 
-<div class="container mt-3">  
+<div class="container mt-3">
+    <hr />
+    <div class="row">
+        <div class="col">
+            <span class="h4 col">
+                Фильмы
+            </span>
+            @if (Model.ApplicationUser != null)
+            {
+                <a class="btn btn-primary" href="/Movies/Create" role="button">Добавить</a>
+            }
+        </div>        
+    </div>
+    <hr />
 
-    <div class="row single-post no-gutters mt-2">   
-       
+    <div class="row single-post no-gutters mt-2">
+
         @foreach (var item in Model.PagedMovies)
         {
-            
+
             <div class="col-sm-12 col-md-6 col-sm-4 mb-4 cursor-pointer" onclick="location.href='@Url.Action("Details", "Movies", new {id = item.Id})'">
                 <div class="image-wrapper float-left pr-3">
                     <img class="float-left d-inline rounded" src='@string.Format("/Posters/{0}", item.Poster)' alt="@item.Name" height="275" />
@@ -28,7 +41,7 @@
                     <h6 class="mt-2">@item.ApplicationUser.Email</h6>
                 }
 
-                @if (item.ApplicationUser?.Id == Model.ApplicationUser?.Id)
+                @if (Model.ApplicationUser != null && item.ApplicationUser != null && item.ApplicationUser.Id == Model.ApplicationUser.Id)
                 {
                     <div class="mt-2">
                         <a class="btn btn-primary" href="/Movies/Edit/@item.Id">Редактировать</a>
@@ -41,24 +54,11 @@
     </div>
 
     <div class="row">
-        <div class="col-md-2">
-            @if (Model.ApplicationUser!=null)
-            {
-                <div class="row mt-1">
-                    <div class="col">
-                        <a class="btn btn-primary" href="/Movies/Create" role="button">Добавить фильм</a>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <div class="col-md-8 pt-1 text-center">
-            <div class="btn-group">             
+        <div class="col pt-1 text-center">
+            <div class="btn-group">
                 @Html.PagedListPager(Model.PagedMovies, page => Url.Action("Index", new { page }))
             </div>
         </div>
-
-
     </div>
 </div>
 

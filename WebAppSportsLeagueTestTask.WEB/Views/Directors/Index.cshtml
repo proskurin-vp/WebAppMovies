@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebAppSportsLeagueTestTask.WEB.Models.DirectorViewModel>
+﻿@model WebAppSportsLeagueTestTask.WEB.Models.DirectorsViewModel
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Режиссёры";
@@ -6,10 +9,20 @@
 
 <div class="container mt-3">
     <hr />
-    <h4>Режиссёры</h4>
+    <div class="row">
+        <div class="col">
+            <span class="h4 col">
+                Режиссёры
+            </span>
+            @if (Model.ApplicationUser != null)
+            {
+                <a class="btn btn-primary" href="/Directors/Create" role="button">Добавить</a>
+            }
+        </div>
+    </div>
     <hr />
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.PagedDirectors)
     {
         <div class="row">
             <div class="col-md-3">
@@ -26,9 +39,11 @@
         </div>
     }
 
-    <div class="row mt-2">
-        <div class="col">
-            <a class="btn btn-primary mb-1" href="/Directors/Create" role="button">Добавить режиссёра</a>
+    <div class="row">
+        <div class="col pt-1 text-center">
+            <div class="btn-group">
+                @Html.PagedListPager(Model.PagedDirectors, page => Url.Action("Index", new { page }))
+            </div>
         </div>
     </div>
 

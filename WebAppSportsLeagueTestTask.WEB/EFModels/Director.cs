@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace WebAppSportsLeagueTestTask.WEB.Models
+namespace WebAppSportsLeagueTestTask.WEB.EFModels
 {
     public class Director
     {
