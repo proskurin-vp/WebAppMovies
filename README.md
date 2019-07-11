@@ -1,4 +1,4 @@
-# WebAppSportsLeagueTestTask
+# WebAppMovies
 
 The task
 
