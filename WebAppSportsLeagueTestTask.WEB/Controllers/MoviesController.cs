@@ -19,10 +19,10 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
 {
     public class MoviesController : Controller
     {
-        private ApplicationDbContext _db = new ApplicationDbContext();
+        private readonly ApplicationDbContext _db = new ApplicationDbContext();
         private int _pageSize = 4; // количество фильмов на страницу  
-        private const int MAX_DESCRIPTION_COUNT = 120;
-        private const int MAX_PAGINATION_LINKS = 20;
+        private const int MaxDescriptionCount = 120;
+        private const int MaxPaginationLinks = 20;
 
         // GET: Movies
         public ActionResult Index(int? page = 1)
@@ -37,8 +37,8 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
 
             movies.ForEach(m =>
             {
-                m.Description = m.Description.Length > MAX_DESCRIPTION_COUNT ?
-                m.Description.Substring(0, MAX_DESCRIPTION_COUNT) + "..." :
+                m.Description = m.Description.Length > MaxDescriptionCount ?
+                m.Description.Substring(0, MaxDescriptionCount) + "..." :
                 m.Description;
             });
 
@@ -46,7 +46,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
 
             MoviesViewModel model = new MoviesViewModel
             {
-                PagedMovies = new StaticPagedList<Movie>(movies, (int)page, _pageSize, totalMoviesCount < MAX_PAGINATION_LINKS ? totalMoviesCount : MAX_PAGINATION_LINKS),
+                PagedMovies = new StaticPagedList<Movie>(movies, (int)page, _pageSize, totalMoviesCount < MaxPaginationLinks ? totalMoviesCount : MaxPaginationLinks),
                 ApplicationUser = Utils.GetCurrentAppUser()
             };
 
@@ -77,8 +77,8 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                 return HttpNotFound();
             }
             var appUser = Utils.GetCurrentAppUser();
-            ViewBag.IsUserAuthorize = appUser == null ? false : true;
-            ViewBag.userId = appUser == null ? null : appUser.Id;
+            ViewBag.IsUserAuthorize = appUser != null;
+            ViewBag.userId = appUser?.Id;
             return View(movie);
         }
 
@@ -284,10 +284,10 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
 
         private HttpCookie CreateCookie(string key, string value)
         {
-            HttpCookie StudentCookies = new HttpCookie(key);
-            StudentCookies.Value = value;
-            StudentCookies.Expires = DateTime.Now.AddHours(1);
-            return StudentCookies;
+            HttpCookie studentCookies = new HttpCookie(key);
+            studentCookies.Value = value;
+            studentCookies.Expires = DateTime.Now.AddHours(1);
+            return studentCookies;
         }
 
         private string GetPosterImagePath(string fileName)

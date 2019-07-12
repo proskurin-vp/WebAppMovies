@@ -15,9 +15,9 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
 {
     public class DirectorsController : Controller
     {
-        private ApplicationDbContext _db = new ApplicationDbContext();
+        private readonly ApplicationDbContext _db = new ApplicationDbContext();
         private int _pageSize = 4; // количество режиссёров на страницу  
-        private const int MAX_PAGINATION_LINKS = 20;
+        private const int MaxPaginationLinks = 20;
 
         // GET: Directors
         [Authorize]
@@ -41,8 +41,8 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
 
             DirectorsViewModel model = new DirectorsViewModel
             {
-                PagedDirectors = new StaticPagedList<DirectorViewModel>(directors, (int)page, _pageSize,  totalDirectorCount < MAX_PAGINATION_LINKS ?
-                totalDirectorCount : MAX_PAGINATION_LINKS),
+                PagedDirectors = new StaticPagedList<DirectorViewModel>(directors, (int)page, _pageSize,  totalDirectorCount < MaxPaginationLinks ?
+                totalDirectorCount : MaxPaginationLinks),
                 ApplicationUser =  Utils.GetCurrentAppUser()
             };
 
@@ -64,7 +64,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                 return HttpNotFound();
             }
 
-            DirectorViewModel directorVM = new DirectorViewModel
+            DirectorViewModel directorVm = new DirectorViewModel
             {
                 Id = director.Id,
                 FullName = director.FullName,
@@ -74,7 +74,7 @@ namespace WebAppSportsLeagueTestTask.WEB.Controllers
                 .ToList()      
             };
             
-            return View(directorVM);
+            return View(directorVm);
         }
 
         // GET: Directors/Create
