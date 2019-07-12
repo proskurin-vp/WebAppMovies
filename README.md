@@ -1,4 +1,4 @@
-# WebAppSportsLeagueTestTask
+# WebAppMovies
 
 The task
 
@@ -8,4 +8,4 @@ The decision is attached. Used ASP.NET MVC 5.
 The database is included in the project. User accounts that have registered and uploaded movies:
 login: vpr4@yahoo.com, password: PiV!x3a.7b9g.mZ
 login: new1@gmail.com, password: az-SWY_LpsYvD:4
-You can also register and share your movies. Used VS2017.
+You can also register and share your movies. Using VS2017.
