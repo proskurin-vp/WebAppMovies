@@ -9,3 +9,5 @@ The database is included in the project. User accounts that have registered and 
 login: vpr4@yahoo.com, password: PiV!x3a.7b9g.mZ
 login: new1@gmail.com, password: az-SWY_LpsYvD:4
 You can also register and share your movies. Using VS2017.
+
+![Безымянный](https://user-images.githubusercontent.com/43531046/61181862-684e8f80-a634-11e9-8814-02554c41f362.png)
