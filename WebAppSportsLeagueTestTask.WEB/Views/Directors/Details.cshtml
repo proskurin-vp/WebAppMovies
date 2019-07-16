@@ -10,17 +10,16 @@
     @if (Model.Movies.Count > 0)
     {
         <h4>Фильмы режиссёра @Html.DisplayName(Model.FullName) (фильмов: @Model.CountMovies)</h4>
-        <div class="row single-post no-gutters">
+        <div class="row no-gutters">
             @foreach (var item in Model.Movies)
             {
                 <div class="col-sm-12 col-md-6 col-sm-4 mb-4 cursor-pointer"
                      onclick="location.href='@Url.Action("Details", "Movies", new { id = item.Id })'">
-                    <div class="image-wrapper float-left pr-3">
+                    <div class="float-left pr-3">
                         <img class="float-left d-inline rounded" src='@string.Format("/Posters/{0}", item.Poster)' alt="@item.Name" height="275" />
                     </div>
                     <h4>@item.Name (@item.Year)</h4>
-                    <h5>@item.Director.FullName</h5>
-                    <div class="single-post-content-wrapper pr-3 text-justify">
+                    <div class="pr-3 text-justify">
                         @item.Description
                     </div>
                 </div>

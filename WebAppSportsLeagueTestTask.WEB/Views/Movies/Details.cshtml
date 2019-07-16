@@ -4,15 +4,15 @@
 }
 
 <div class="container mt-5">
-    <div class="row single-post no-gutters">
+    <div class="row no-gutters">
         <div class="col-12">
-            <div class="image-wrapper float-left pr-3">
+            <div class="float-left pr-3">
                 <img class="float-left d-inline rounded" src='@string.Format("/Posters/{0}", Model.Poster)' alt="@Model.Name" height="275" />
             </div>
             <h4>@Html.DisplayFor(model => model.Name)</h4>
             <h5>@Html.DisplayNameFor(model => model.Year): @Html.DisplayFor(model => model.Year)</h5>
             <h5>@Html.DisplayNameFor(model => model.Director.FullName): @Html.DisplayFor(model => model.Director.FullName)</h5>
-            <div class="single-post-content-wrapper pr-3 text-justify">
+            <div class="pr-3 text-justify">
                 @Html.DisplayFor(model => model.Description)
             </div>
             @if (ViewBag.userId != null && Model.ApplicationUser != null && Model.ApplicationUser.Id == ViewBag.userId)
